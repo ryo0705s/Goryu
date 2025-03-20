@@ -1,19 +1,21 @@
 "use client";
-import { Create } from "@refinedev/mui";
+import { Edit } from "@refinedev/mui";
 import { Box, TextField } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 
-export default function PostCreate() {
+export default function PostEdit() {
   const {
     saveButtonProps,
-    refineCore: { formLoading },
+    refineCore: { query },
     register,
     control,
     formState: { errors },
   } = useForm();
 
+  const postsData = query?.data?.data;
+
   return (
-    <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
+    <Edit saveButtonProps={saveButtonProps}>
       <Box
         component="form"
         sx={{ display: "flex", flexDirection: "column" }}
@@ -24,7 +26,7 @@ export default function PostCreate() {
                     To use a <DatePicker> component, you can follow the official documentation for Material UI.
 
                     Docs: https://mui.com/x/react-date-pickers/date-picker/#basic-usage
-                */}
+                */}{" "}
         <TextField
           {...register("title", {
             required: "This field is required",
@@ -60,6 +62,6 @@ export default function PostCreate() {
           name="content"
         />
       </Box>
-    </Create>
+    </Edit>
   );
 }
