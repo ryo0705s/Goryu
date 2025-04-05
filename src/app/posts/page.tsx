@@ -42,6 +42,15 @@ export default function PostsList() {
         headerAlign: "left",
       },
       {
+        field: "updated_at",
+        headerName: "更新日時",
+        type: "string",
+        minWidth: 50,
+        display: "flex",
+        align: "left",
+        headerAlign: "left",
+      },
+      {
         field: "actions",
         headerName: "編集・削除",
         sortable: false,

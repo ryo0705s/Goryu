@@ -23,7 +23,8 @@ import {
   IconButton,
 } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabaseBrowserClient as supabase } from "@utils/supabase/client";
 
 export default function PostShow() {
   const { query } = useShow();
@@ -44,6 +45,7 @@ export default function PostShow() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [editId, setEditId] = useState(null);
+  const [userName, setUserName] = useState("");
 
   const handlePostTalk = () => {
     if (editId) {
@@ -89,6 +91,14 @@ export default function PostShow() {
     deleteTalk({ resource: "talks", id }, { onSuccess: refetch });
   };
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUserName(data?.user?.user_metadata?.display_name);
+    };
+    fetchUser();
+  }, []);
+
   return (
     <Show isLoading={isLoading}>
       <Stack gap={2}>
@@ -101,13 +111,17 @@ export default function PostShow() {
         </Typography>
         <DateField value={record?.created_at} />
         <Typography variant="body1" fontWeight="bold">
-          Content
+          Name
         </Typography>
-        <TextField value={record?.content} />
+        <TextField value={userName} />
         <Typography variant="body1" fontWeight="bold">
           Title
         </Typography>
         <TextField value={record?.title} />
+        <Typography variant="body1" fontWeight="bold">
+          Content
+        </Typography>
+        <TextField value={record?.content} />
       </Stack>
 
       {/* 会話リスト */}
